@@ -78,3 +78,32 @@ export function getScoreColor(score: number): string {
   if (score >= 0.2) return '#f97316';
   return '#ef4444';
 }
+
+export function extractField(field: any): any {
+  if (field === null || field === undefined) return null;
+
+  if (Array.isArray(field)) return field.length > 0 ? field[0] : null;
+
+  if (typeof field === 'string' || typeof field === 'number' || typeof field === 'boolean') {
+    return field;
+  }
+
+  if (typeof field === 'object') {
+    return JSON.stringify(field);
+  }
+
+  return String(field);
+}
+
+/**
+ * Null-safe skor sıralaması yapar (büyükten küçüğe).
+ * Null olan skorlar sona atılır.
+ */
+export function sortByScoreDescending<T extends { score: number | null }>(items: T[]): T[] {
+  return items.sort((a, b) => {
+    if (a.score === null && b.score === null) return 0;
+    if (a.score === null) return 1;
+    if (b.score === null) return -1;
+    return (b.score ?? 0) - (a.score ?? 0);
+  });
+}
