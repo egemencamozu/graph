@@ -1,0 +1,12 @@
+<div class="legend-container">
+    <div class="legend-title">Score Legend</div>
+    <div class="legend-table">
+        <div class="legend-item" *ngFor="let range of scoreRanges">
+            <div class="legend-color" [style.background-color]="range.color"></div>
+            <div class="legend-text">
+                <div class="legend-label">{{ range.label }}</div>
+                <div class="legend-range">{{ range.description }}</div>
+            </div>
+        </div>
+    </div>
+</div>

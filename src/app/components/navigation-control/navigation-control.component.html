@@ -1,0 +1,30 @@
+<div class="navigation-controls">
+
+  <!-- Back Button -->
+  <div class="nav-button-wrapper">
+    <button id="backBtn"
+            class="nav-button back-button"
+            [disabled]="!canGoBack"
+            (click)="onBackClick()">
+      ← Back
+    </button>
+  </div>
+
+  <!-- Home Button -->
+  <div class="nav-button-wrapper">
+    <button id="homeBtn"
+            class="nav-button home-button"
+            (click)="onHomeClick()">
+      🏠 Home
+    </button>
+  </div>
+
+  <!-- Current Level Display -->
+  <div class="current-level-wrapper">
+    <span id="currentLevel"
+          class="current-level">
+      {{ currentLevel }}
+    </span>
+  </div>
+
+</div>

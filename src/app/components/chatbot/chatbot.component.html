@@ -1,0 +1,104 @@
+<div class="chatbot-container">
+  <div class="chatbot-wrapper">
+
+    <!-- Floating Toggle Button -->
+    <div class="toggle-section">
+      <div class="chatbot-toggle"
+           [class.open]="isOpen"
+           (click)="toggleChatbot()"
+           #chatToggle>
+        💬
+      </div>
+    </div>
+
+    <!-- Main Chat Panel -->
+    <div class="chat-panel-section">
+      <div class="chatbot-panel"
+           [class.open]="isOpen"
+           #chatPanel>
+
+        <!-- Header Area -->
+        <div class="header-wrapper">
+          <div class="chatbot-header">
+            <h3>🤖 Review Assistant</h3>
+            <button class="chatbot-close" (click)="closeChatbot()">×</button>
+          </div>
+        </div>
+
+        <!-- Messages Area -->
+        <div class="messages-wrapper">
+          <div class="chatbot-messages" #chatMessages>
+            <!-- Welcome Message -->
+            <div *ngIf="messages.length === 0; else showMessages" class="welcome-message">
+              <div class="bot-message">
+                Merhaba! Size nasıl yardımcı olabilirim?
+              </div>
+            </div>
+
+            <!-- Message List -->
+            <ng-template #showMessages>
+              <div *ngFor="let message of messages"
+                   [class]="message.sender === 'user' ? 'user-message' : 'bot-message'">
+                {{ message.text }}
+              </div>
+            </ng-template>
+
+            <!-- Typing Indicator -->
+            <div *ngIf="isTyping" class="typing-wrapper">
+              <div class="typing-indicator">
+                Bot yazıyor
+                <div class="typing-dots">
+                  <div class="typing-dot"></div>
+                  <div class="typing-dot"></div>
+                  <div class="typing-dot"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-wrapper">
+          <div class="chatbot-input">
+            <input type="text"
+                   placeholder="Mesajınızı yazın..."
+                   [(ngModel)]="currentMessage"
+                   (keypress)="onKeyPress($event)"
+                   [disabled]="isSending"
+                   #chatInput>
+            <button class="send-btn"
+                    (click)="sendMessage()"
+                    [disabled]="isSending || !currentMessage.trim()">
+              <span *ngIf="!isSending; else sendingIcon">📤</span>
+              <ng-template #sendingIcon>
+                <div class="sending-spinner">⌛</div>
+              </ng-template>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Status Area -->
+    <div class="status-section" *ngIf="lastQueryInfo">
+      <div class="query-info">
+        <div class="query-status"
+             [class.success]="lastQueryInfo.success"
+             [class.error]="!lastQueryInfo.success">
+          <span class="status-icon">{{ lastQueryInfo.success ? '✅' : '❌' }}</span>
+          <span class="status-text">{{ lastQueryInfo.message }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay-section">
+      <div class="chatbot-overlay"
+           *ngIf="isOpen"
+           (click)="$event.stopPropagation(); closeChatbot()">
+      </div>
+    </div>
+
+  </div>
+</div>
